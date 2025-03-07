@@ -99,7 +99,8 @@ python pipeline.py
 │── 📂 scripts/                # Python scripts
 │   │── download_data.py       # Fetches stock data from Alpha Vantage
 │   │── upload_data.py         # Stores data in PostgreSQL
-│   │── predict_stock.py       # Predicts the next day's trend
+│   │── predict_stock.py       # Original prediction script (SMA-based)
+│   │── predict_stock_2.py     # Alternative prediction script (multiple models)
 │── .env                       # Environment variables
 │── pipeline.py                # Runs the entire pipeline
 │── requirements.txt           # Python dependencies
@@ -118,29 +119,60 @@ The prediction algorithm analyzes stock price movements using **Simple Moving Av
 
 ---
 
-### Steps & Logic 
+### **Prediction Models**  
 
-1. **Load Stock Data**  
-   - Retrieve historical stock prices from a PostgreSQL database.  
-   - Convert the `date` column to a datetime format and set it as the index.
+#### **1. Original Prediction Model (`predict_stock.py`)**  
 
-2. **Calculate Moving Averages**  
-   - Compute **SMA_5** (5-day moving average) → Short-term trend indicator.  
-   - Compute **SMA_20** (20-day moving average) → Long-term trend indicator.
+This script uses a **Simple Moving Average (SMA)** strategy to classify the expected stock trend as **Positive, Negative, or Stable**.  
 
-3. **Determine Trend Based on SMA Comparison**  
-   - **If SMA_5 > SMA_20** → **"Positive"** (Short-term uptrend)  
-   - **If SMA_5 < SMA_20** → **"Negative"** (Short-term downtrend)  
-   - **If SMA_5 == SMA_20** → **"Stable"** (No clear trend)
+#### **Logic:**  
+1. **Calculate Moving Averages**  
+   - SMA_5 (5-day moving average)  
+   - SMA_20 (20-day moving average)  
 
-4. **Predict Next Day's Movement**  
-   - The most recent SMA values are used to classify the expected trend.  
-   - The prediction is printed as **"Positive", "Negative", or "Stable"**.
+2. **Predict the Next Day’s Movement**  
+   - If `SMA_5 > SMA_20` → **Positive** (Uptrend)  
+   - If `SMA_5 < SMA_20` → **Negative** (Downtrend)  
+   - If `SMA_5 == SMA_20` → **Stable** (No clear trend)  
 
----
-
-### **Key Assumption**  
-
+#### **Key Assumption:**   
 - The algorithm follows a **moving average crossover strategy**, a common technique in technical analysis.  
 - A **short-term moving average crossing above** a long-term moving average suggests an **upward trend (bullish)**, while crossing **below** suggests a **downward trend (bearish)**.
 
+
+---  
+
+#### **2. Alternative Prediction Model (`predict_stock_2.py`)**  
+
+This script extends the original approach by introducing **three different prediction methodologies**:  
+
+1. **SMA-Based Model** (Same as `predict_stock.py`)  
+2. **Exponential Moving Average (EMA) Model**  
+3. **Percentage Change Model**  
+
+By default, the pipeline applies `predict_stock.py`, but you can switch to `predict_stock_2.py` by modifying the pipeline script to call the alternative model instead. This allows flexibility in choosing the prediction approach without modifying the core pipeline structure.  
+
+#### **Additional Logic in `predict_stock_2.py`:**  
+
+- **EMA-Based Model (Exponential Moving Average):** 
+   EMA is similar to SMA but gives more weight to recent prices, making it more sensitive to recent price changes.
+   The EMA_5 and EMA_20 work like SMA but react faster to price fluctuations.
+
+  - If `EMA_5 > EMA_20` → **Positive**  
+  - If `EMA_5 < EMA_20` → **Negative**  
+  - If `EMA_5 == EMA_20` → **Stable**  
+
+- **Percentage Change Model:**  
+  - Compares today's closing price with yesterday's.  
+  - If the percentage change is above a small threshold (e.g., ±0.1%):  
+    - **Positive** if the price increased  
+    - **Negative** if the price decreased  
+    - **Stable** if the change is within the threshold  
+
+This version of the prediction script (`predict_stock_2.py`) provides a **more comprehensive view** by evaluating stock movement through multiple indicators at once.
+
+## Conclusion
+
+This project provides a **flexible and extensible** pipeline for stock analysis and prediction.  
+- **For a quick prediction**, use `predict_stock.py`.  
+- **For a more detailed analysis**, use `predict_stock_2.py`.

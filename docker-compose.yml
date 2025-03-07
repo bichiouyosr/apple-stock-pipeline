@@ -5,8 +5,8 @@ services:
     container_name: apple_stock_db
     restart: always
     environment:
-      POSTGRES_USER: yosr
-      POSTGRES_PASSWORD: yosr
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: stock_data
     ports:
       - "5432:5432"

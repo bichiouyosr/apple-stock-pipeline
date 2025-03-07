@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-def predict_stock_all_models():
+def predict_stock_2():
     # Load DB URI from .env
     DB_URI = os.getenv("DB_URI")
     engine = create_engine(DB_URI)
