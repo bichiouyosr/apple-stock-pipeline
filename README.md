@@ -95,20 +95,16 @@ python pipeline.py
 
 ```plaintext
 📂 apple-stock-pipeline
-│── 📂 data/                   # Downloaded raw data
-│── 📂 scripts/                # Python scripts
-│   │── download_data.py       # Fetches stock data from Alpha Vantage
-│   │── upload_data.py         # Stores data in PostgreSQL
-│   │── predict_stock.py       # Original prediction script (SMA-based)
-│   │── predict_stock_2.py     # Alternative prediction script (multiple models)
-│── .env                       # Environment variables
-│── pipeline.py                # Runs the entire pipeline
-│── requirements.txt           # Python dependencies
-│── README.md                  # This README file
+│── 📂 data/                   # Folder for storing stock data
+│── 📂 scripts/                # Python scripts for data processing & modeling
+│── .env                       # Environment variables file
 │── docker-compose.yml         # PostgreSQL Docker configuration
-│── example.env                # Example environment file
+│── example.env                # Example environment variables
+│── pipeline.py                # Main pipeline script
+│── README.md                  # Project documentation
+│── requirements.txt           # Python dependencies
+│── Visualisations.ipnb        # Jupyter notebooks for visualization & analysis
 ```
-
 ---
 
 ## Prediction Algorithm Documentation
@@ -171,8 +167,33 @@ By default, the pipeline applies `predict_stock.py`, but you can switch to `pred
 
 This version of the prediction script (`predict_stock_2.py`) provides a **more comprehensive view** by evaluating stock movement through multiple indicators at once.
 
+## **Stock Data Visualization (`visualizations.ipynb`)**  
+
+The **`visualizations.ipynb`** notebook provides **detailed visual insights** into Apple stock data, including price trends, moving averages, and anomaly detection.
+
+### **Key Sections & Visualizations:**  
+1. **Closing Price Trends:** Line chart showing stock price movements over time.  
+2. **Moving Averages (SMA & EMA):** Helps identify trends in stock prices.  
+3. **Trading Volume Analysis:** Bar charts showing stock trading volumes per year.   
+4. **Rolling Statistics:** Moving averages and volatility analysis.  
+5. **Machine Learning – Anomaly Detection:** Detects unusual stock price movements using ML techniques.  
+6. **Stacked Area Chart:** Visualizes stock price components over time.
+
+### **Usage:**  
+Run the notebook in Jupyter:  
+```bash
+jupyter notebook visualizations.ipynb
+```
+OR 
+Run All Cells in the notebook:
+- Open the notebook in your browser.
+- Click the "Run All" button at the top of the notebook.
+
+---
+
 ## Conclusion
 
 This project provides a **flexible and extensible** pipeline for stock analysis and prediction.  
 - **For a quick prediction**, use `predict_stock.py`.  
-- **For a more detailed analysis**, use `predict_stock_2.py`.
+- **For a more detailed analysis**, use `predict_stock_2.py`.  
+- **For in-depth visual analysis**, use `visualization.ipynb`. 

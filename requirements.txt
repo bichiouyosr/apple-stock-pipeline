@@ -1,13 +1,11 @@
 pandas
 requests 
 python-dotenv
-psycopg2-binary 
 sqlalchemy
 numpy 
 scikit-learn
-seaborn 
 matplotlib
 dotenv
-plotly
-nbformat
-statsmodels
+jupyter
+
+

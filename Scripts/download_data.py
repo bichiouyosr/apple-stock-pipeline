@@ -32,3 +32,7 @@ def download_data():
     file_path = os.path.join("Data", "apple_stock_data.csv")
     df.to_csv(file_path)
     print(f"✅ Data downloaded and saved at {file_path}!")
+
+
+
+
